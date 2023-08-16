@@ -28,6 +28,7 @@ interface IEditData {
 
 function App() {
   const { getCards, passwordCards, loading, error } = useGetPasswordCards();
+  const [search, setSearch] = useState<string>('');
   const [filteredList, setFilteredList] = useState(passwordCards);
   const [editData,setEditData] = useState<IEditData>({
     edit: false,
@@ -57,9 +58,16 @@ function App() {
     setOpen(true)
   }
 
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  }
 
-  const filterBySearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const query = event.target.value;
+  useEffect(() => {
+    filterBySearch(search);
+  },[search, passwordCards])
+
+
+  const filterBySearch = (query: string) => {
     var updatedList = [...passwordCards];
     updatedList = updatedList.filter((item) => {
       return item.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
@@ -80,7 +88,7 @@ function App() {
         { error && <p>Error: {error}</p> }
         <div>
           <Button onClick={handleOpen}>Add PasswordCard</Button>
-          <TextField name="search" label="Search" type = "search"  variant="outlined" onChange={filterBySearch} />
+          <TextField name="search" label="Search" type = "search"  variant="outlined" onChange={handleSearch} value={search}/>
           <Modal
             open={open}
             onClose={handleClose}
