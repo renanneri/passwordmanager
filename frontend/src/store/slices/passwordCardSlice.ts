@@ -24,10 +24,22 @@ const INITIAL_STATE_CREATE_OR_UPDATE = {
    error: null,
 } as createOrUpdatePasswordCardSlice;
 
-export const getAllPasswordCards = createAsyncThunk('passwordCard/getAllPasswordCards', passwordCardApi.getAllPasswordCards);
-export const deletePasswordCard = createAsyncThunk('passwordCard/deletePasswordCard', passwordCardApi.deletePasswordCard);
-export const createPasswordCard = createAsyncThunk('passwordCard/createorUpdatePasswordCard', passwordCardApi.createPasswordCard);
-export const updatePasswordCard = createAsyncThunk('passwordCard/updatePasswordCard', passwordCardApi.updatePasswordCard);
+export const getAllPasswordCards = createAsyncThunk(
+   'passwordCard/getAllPasswordCards',
+   passwordCardApi.getAllPasswordCards,
+);
+export const deletePasswordCard = createAsyncThunk(
+   'passwordCard/deletePasswordCard',
+   passwordCardApi.deletePasswordCard,
+);
+export const createPasswordCard = createAsyncThunk(
+   'passwordCard/createorUpdatePasswordCard',
+   passwordCardApi.createPasswordCard,
+);
+export const updatePasswordCard = createAsyncThunk(
+   'passwordCard/updatePasswordCard',
+   passwordCardApi.updatePasswordCard,
+);
 
 const passwordCardSlice = createSlice({
    name: 'passwordCard',
@@ -48,8 +60,10 @@ const passwordCardSlice = createSlice({
             state.passwordCards = [];
             state.error = action.payload;
          })
-         .addCase(deletePasswordCard.fulfilled, (state,action) => {
-            state.passwordCards = state.passwordCards.filter((passwordCard) => passwordCard.id !== action.meta.arg);
+         .addCase(deletePasswordCard.fulfilled, (state, action) => {
+            state.passwordCards = state.passwordCards.filter(
+               (passwordCard) => passwordCard.id !== action.meta.arg,
+            );
          });
    },
 });
@@ -80,8 +94,8 @@ export const createOrUpdatePasswordCardSlice = createSlice({
          })
          .addCase(updatePasswordCard.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.error
-         })
+            state.error = action.error;
+         });
    },
 });
 
