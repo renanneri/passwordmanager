@@ -2,13 +2,15 @@
 
 Run Front-end
 
+Run the following commands:
+
 ```
 cd frontend
 yarn install
 yarn dev
 ```
 
-Run back-end
+Run Back-end
 
 In another shell run the following commands:
 
