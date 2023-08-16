@@ -1,11 +1,4 @@
-#Password manager quick start
-
-Install tools and run tests
-
-```
-make install-tools
-make test
-```
+# Password manager quick start
 
 Run Front-end
 
