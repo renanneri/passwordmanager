@@ -4,6 +4,13 @@ import { TextField, Button, Alert } from '@mui/material';
 import useCreateOrUpdatePasswordCards from 'hooks/useCreateorUpdatePasswordCard';
 import { CreatePasswordCard, PasswordCard } from 'api/passwordCard/passwordCard.model';
 
+const FormStyle = {
+   display: 'flex',
+   flexDirection: 'column' as 'column',
+   gap: '1rem',
+   padding: '1rem',
+};
+
 export function NewPasswordCard(props: {
    closeModal: () => void;
    edit: boolean;
@@ -63,43 +70,45 @@ export function NewPasswordCard(props: {
 
    return (
       <form onSubmit={handleSubmit}>
-         <TextField
-            name="name"
-            label="Name"
-            variant="outlined"
-            value={formData.name}
-            onChange={handleChange}
-         />
-         <TextField
-            name="username"
-            label="Username"
-            variant="outlined"
-            value={formData.username}
-            onChange={handleChange}
-         />
-         <TextField
-            name="url"
-            label="Url"
-            variant="outlined"
-            value={formData.url}
-            onChange={handleChange}
-         />
-         <TextField
-            name="password"
-            label="Password"
-            variant="outlined"
-            value={formData.password}
-            onChange={handleChange}
-         />
-         <Button variant="contained" type="submit">
-            {props.edit ? 'Edit' : 'Create'}
-         </Button>
-         {error ? (
-            <Alert severity="error">
-               Error while {props.edit ? 'editing' : 'creating'} card. You must have left an empty
-               field
-            </Alert>
-         ) : null}
+         <div style={FormStyle}>
+            <TextField
+               name="name"
+               label="Name"
+               variant="outlined"
+               value={formData.name}
+               onChange={handleChange}
+            />
+            <TextField
+               name="username"
+               label="Username"
+               variant="outlined"
+               value={formData.username}
+               onChange={handleChange}
+            />
+            <TextField
+               name="url"
+               label="Url"
+               variant="outlined"
+               value={formData.url}
+               onChange={handleChange}
+            />
+            <TextField
+               name="password"
+               label="Password"
+               variant="outlined"
+               value={formData.password}
+               onChange={handleChange}
+            />
+            <Button variant="contained" type="submit">
+               {props.edit ? 'Edit' : 'Create'}
+            </Button>
+            {error ? (
+               <Alert severity="error">
+                  Error while {props.edit ? 'editing' : 'creating'} card. You must have left an
+                  empty field
+               </Alert>
+            ) : null}
+         </div>
       </form>
    );
 }
