@@ -2,24 +2,31 @@ package usecases
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/renanneri/passmanager/backend/app/domain"
 )
 
 type PasswordCardsUsecases struct {
 	passwordCardRepository PasswordCardRepository
-	hash                   Hasher
+	encrypt                Encrypter
 }
 
-func NewPasswordCardsUsecases(passwordCardRepository PasswordCardRepository, hash Hasher) *PasswordCardsUsecases {
+func NewPasswordCardsUsecases(passwordCardRepository PasswordCardRepository, encrypt Encrypter) *PasswordCardsUsecases {
 	return &PasswordCardsUsecases{
-		hash:                   hash,
+		encrypt:                encrypt,
 		passwordCardRepository: passwordCardRepository,
 	}
 }
 
 func (u *PasswordCardsUsecases) CreatePasswordCard(ctx context.Context, passwordCard domain.PasswordCard) error {
-	passwordCard.Password = u.hash(passwordCard.Password)
+	encryptedPassword, err := u.encrypt(passwordCard.Password)
+
+	if err != nil {
+		return fmt.Errorf("error encrypting password: %v", err)
+	}
+
+	passwordCard.Password = encryptedPassword
 	passwordCard.GenerateID()
 	return u.passwordCardRepository.Create(ctx, passwordCard)
 }
@@ -29,7 +36,13 @@ func (u *PasswordCardsUsecases) GetPasswordCards(ctx context.Context) ([]domain.
 }
 
 func (u *PasswordCardsUsecases) UpdatePasswordCard(ctx context.Context, id string, passwordCard domain.PasswordCard) error {
-	passwordCard.Password = u.hash(passwordCard.Password)
+	encryptedPassword, err := u.encrypt(passwordCard.Password)
+
+	if err != nil {
+		return fmt.Errorf("error encrypting password: %v", err)
+	}
+
+	passwordCard.Password = encryptedPassword
 	return u.passwordCardRepository.Update(ctx, id, passwordCard)
 }
 

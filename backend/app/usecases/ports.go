@@ -13,4 +13,4 @@ type PasswordCardRepository interface {
 	Delete(ctx context.Context, id string) error
 }
 
-type Hasher func(password string) string
+type Encrypter func(password string) (string, error)

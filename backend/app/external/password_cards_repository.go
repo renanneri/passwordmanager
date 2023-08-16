@@ -40,7 +40,7 @@ func (r *PasswordCardsRepository) GetAll(ctx context.Context) ([]domain.Password
 
 	defer rows.Close()
 
-	var passwordCards []domain.PasswordCard
+	var passwordCards = []domain.PasswordCard{}
 
 	for rows.Next() {
 		var passwordCard domain.PasswordCard
