@@ -5,9 +5,12 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"github.com/renanneri/passmanager/backend/app/domain"
 	"github.com/renanneri/passmanager/backend/app/usecases"
 )
+
+var Validate *validator.Validate
 
 type PasswordCardsController struct {
 	passwordUsecases *usecases.PasswordCardsUsecases
@@ -39,6 +42,14 @@ func (c *PasswordCardsController) CreatePasswordCard(ctx *gin.Context) {
 		return
 	}
 
+	err = Validate.Struct(body)
+	validationErrors := err.(validator.ValidationErrors)
+
+	if len(validationErrors) > 0 {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, map[string]string{"error": validationErrors.Error()})
+		return
+	}
+
 	err = c.passwordUsecases.CreatePasswordCard(ctx, body)
 
 	if err != nil {
@@ -58,6 +69,15 @@ func (c *PasswordCardsController) UpdatePasswordCard(ctx *gin.Context) {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, map[string]string{"error": customError.Error()})
 		return
 	}
+
+	err = Validate.Struct(body)
+	validationErrors := err.(validator.ValidationErrors)
+
+	if len(validationErrors) > 0 {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, map[string]string{"error": validationErrors.Error()})
+		return
+	}
+
 	err = c.passwordUsecases.UpdatePasswordCard(ctx, ctx.Param("id"), body)
 
 	if err != nil {

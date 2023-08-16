@@ -3,11 +3,11 @@ package domain
 import "github.com/google/uuid"
 
 type PasswordCard struct {
-	ID       string `json:"id" db:"id"`
-	Name     string `json:"name" db:"name"`
-	Password string `json:"password" db:"password"`
-	Username string `json:"username" db:"username"`
-	URL      string `json:"url" db:"url"`
+	ID       string `json:"id"`
+	Name     string `json:"name" validate:"required"`
+	Password string `json:"password" validate:"required"`
+	Username string `json:"username" validate:"required"`
+	URL      string `json:"url" valiedate:"required"`
 }
 
 func (p *PasswordCard) GenerateID() {

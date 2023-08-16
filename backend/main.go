@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 
 	"github.com/renanneri/passmanager/backend/app/controllers"
 	"github.com/renanneri/passmanager/backend/app/domain"
@@ -22,6 +23,8 @@ func main() {
 	)
 
 	controller := controllers.NewPasswordCardsController(passwordUsecases)
+
+	controllers.Validate = validator.New()
 
 	// router
 	router := gin.Default()
