@@ -43,9 +43,9 @@ func (c *PasswordCardsController) CreatePasswordCard(ctx *gin.Context) {
 	}
 
 	err = Validate.Struct(body)
-	validationErrors := err.(validator.ValidationErrors)
 
-	if len(validationErrors) > 0 {
+	if err != nil {
+		validationErrors := err.(validator.ValidationErrors)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, map[string]string{"error": validationErrors.Error()})
 		return
 	}
@@ -71,9 +71,9 @@ func (c *PasswordCardsController) UpdatePasswordCard(ctx *gin.Context) {
 	}
 
 	err = Validate.Struct(body)
-	validationErrors := err.(validator.ValidationErrors)
 
-	if len(validationErrors) > 0 {
+	if err != nil {
+		validationErrors := err.(validator.ValidationErrors)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, map[string]string{"error": validationErrors.Error()})
 		return
 	}
