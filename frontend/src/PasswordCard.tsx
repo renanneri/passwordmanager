@@ -16,17 +16,12 @@ export function PasswordCardComponent(props:{ passwordCard: PasswordCard, setEdi
     })
 
     useEffect(() => {
-        console.log(props.passwordCard.password)
         const decryptedPassword = DecryptPassword(props.passwordCard.password);
-        console.log("DECRYPTED PASSWORD")
-        console.log(decryptedPassword)
         setPasswordInfo({
             showPassword: false,
             password: decryptedPassword,
         })
         },[])
-
-    
 
     const togglePassword = () => {
         if (passwordInfo.showPassword) {
