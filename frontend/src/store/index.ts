@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import passwordCardReducer, { createPasswordCardSlice } from 'store/slices/passwordCardSlice';
+import passwordCardReducer, { createOrUpdatePasswordCardSlice } from 'store/slices/passwordCardSlice';
 
 const store = configureStore({
    reducer: {
       passwordCard: passwordCardReducer,
-      createPasswordCard: createPasswordCardSlice.reducer,
+      createOrUpdatePasswordCard: createOrUpdatePasswordCardSlice.reducer,
    },
 });
 

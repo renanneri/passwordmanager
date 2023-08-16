@@ -8,7 +8,7 @@ export interface passwordCardSlice {
    error: any;
 }
 
-export interface createPasswordCardSlice {
+export interface createOrUpdatePasswordCardSlice {
    loading: boolean;
    error: any;
 }
@@ -19,14 +19,14 @@ const INITIAL_STATE = {
    error: null,
 } as passwordCardSlice;
 
-const INITIAL_STATE_CREATE = {
+const INITIAL_STATE_CREATE_OR_UPDATE = {
    loading: false,
    error: null,
-} as createPasswordCardSlice;
+} as createOrUpdatePasswordCardSlice;
 
 export const getAllPasswordCards = createAsyncThunk('passwordCard/getAllPasswordCards', passwordCardApi.getAllPasswordCards);
 export const deletePasswordCard = createAsyncThunk('passwordCard/deletePasswordCard', passwordCardApi.deletePasswordCard);
-export const createPasswordCard = createAsyncThunk('passwordCard/createPasswordCard', passwordCardApi.createPasswordCard);
+export const createPasswordCard = createAsyncThunk('passwordCard/createorUpdatePasswordCard', passwordCardApi.createPasswordCard);
 export const updatePasswordCard = createAsyncThunk('passwordCard/updatePasswordCard', passwordCardApi.updatePasswordCard);
 
 const passwordCardSlice = createSlice({
@@ -54,9 +54,9 @@ const passwordCardSlice = createSlice({
    },
 });
 
-export const createPasswordCardSlice = createSlice({
-   name: 'createPasswordCard',
-   initialState: INITIAL_STATE_CREATE,
+export const createOrUpdatePasswordCardSlice = createSlice({
+   name: 'createOrUpdatePasswordCard',
+   initialState: INITIAL_STATE_CREATE_OR_UPDATE,
    reducers: {},
    extraReducers: (builder) => {
       builder
@@ -69,7 +69,18 @@ export const createPasswordCardSlice = createSlice({
          })
          .addCase(createPasswordCard.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.payload;
+            state.error = action.error;
+         })
+         .addCase(updatePasswordCard.pending, (state) => {
+            state.loading = true;
+         })
+         .addCase(updatePasswordCard.fulfilled, (state, action) => {
+            state.loading = false;
+            state.error = null;
+         })
+         .addCase(updatePasswordCard.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error
          })
    },
 });

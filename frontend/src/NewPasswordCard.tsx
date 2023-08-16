@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Alert } from '@mui/material';
 
-import useCreatePasswordCards from 'hooks/useCreatePasswordCard';
-import useUpdatePasswordCards from 'hooks/useUpdatePasswordCard';
+import useCreateOrUpdatePasswordCards from 'hooks/useCreateorUpdatePasswordCard';
 import { CreatePasswordCard, PasswordCard } from 'api/passwordCard/passwordCard.model';
 
 
@@ -10,9 +9,7 @@ export function NewPasswordCard(props:{ closeModal: () => void, edit: boolean, p
 
 const [formData, setFormData] = useState({name: "",username: "",url: "", password: ""});
 
-const { createCard } = useCreatePasswordCards();
-
-const { updateCard } = useUpdatePasswordCards();
+const { createCard, updateCard, error } = useCreateOrUpdatePasswordCards();
 
 useEffect(() => {
     if (props.edit && props.passwordCard) {
@@ -69,6 +66,7 @@ useEffect(() => {
             <TextField name="url" label="Url" variant="outlined" value={formData.url} onChange={handleChange}/>
             <TextField name="password" label="Password" variant="outlined" value={formData.password} onChange={handleChange}/>
             <Button variant="contained" type="submit">{props.edit ? "Edit" : "Create"}</Button>
+            { error ? <Alert severity="error">Error while {props.edit ? "editing" : "creating"} card. You must have left an empty field</Alert> : null}
         </form>
     )
 }
